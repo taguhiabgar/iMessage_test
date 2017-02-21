@@ -8,12 +8,31 @@
 
 import UIKit
 import Messages
+import MobileCoreServices
 
-class MessagesViewController: MSMessagesAppViewController {
+class MessagesViewController: MSMessagesAppViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        initialSetup()
+    }
+    
+    private func initialSetup() {
+        // show the photo library
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        imagePicker.sourceType = UIImagePickerControllerSourceType.photoLibrary
+        imagePicker.mediaTypes = [kUTTypeImage as String]
+        imagePicker.allowsEditing = false
+        self.present(imagePicker, animated: true, completion: nil)
+        
+        // check this code on real device
+//        let imagePicker = UIImagePickerController()
+//        imagePicker.delegate = self
+//        imagePicker.sourceType = UIImagePickerControllerSourceType.camera
+//        imagePicker.mediaTypes = [kUTTypeImage as String]
+//        imagePicker.allowsEditing = false
+//        self.present(imagePicker, animated: true, completion: nil)
     }
     
     override func didReceiveMemoryWarning() {

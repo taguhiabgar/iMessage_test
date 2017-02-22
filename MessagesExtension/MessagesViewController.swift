@@ -12,9 +12,23 @@ import MobileCoreServices
 
 class MessagesViewController: MSMessagesAppViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
+    @IBOutlet weak var imageView: UIImageView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         initialSetup()
+    }
+    
+    public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
+            imageView.contentMode = .scaleAspectFit
+            imageView.image = pickedImage
+        }
+        dismiss(animated: true, completion: nil)
+    }
+    
+    public func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
     }
     
     private func initialSetup() {
@@ -28,11 +42,14 @@ class MessagesViewController: MSMessagesAppViewController, UIImagePickerControll
         
         // check this code on real device
 //        let imagePicker = UIImagePickerController()
-//        imagePicker.delegate = self
-//        imagePicker.sourceType = UIImagePickerControllerSourceType.camera
-//        imagePicker.mediaTypes = [kUTTypeImage as String]
-//        imagePicker.allowsEditing = false
-//        self.present(imagePicker, animated: true, completion: nil)
+//        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+//            imagePicker.delegate = self
+//            imagePicker.sourceType = .camera
+//            present(imagePicker, animated: true, completion: nil)
+//        } else {
+//            print("TA: The device has no camera")
+//        }
+        
     }
     
     override func didReceiveMemoryWarning() {

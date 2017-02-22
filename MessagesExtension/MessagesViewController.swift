@@ -10,46 +10,39 @@ import UIKit
 import Messages
 import MobileCoreServices
 
-class MessagesViewController: MSMessagesAppViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class MessagesViewController: MSMessagesAppViewController {
+    
+    // MARK: - Properties
     
     @IBOutlet weak var imageView: UIImageView!
     
+    let imagePicker = UIImagePickerController()
+    
+    // MARK: - Lifecycle Methods
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        imagePicker.delegate = self
         initialSetup()
-    }
-    
-    public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
-            imageView.contentMode = .scaleAspectFit
-            imageView.image = pickedImage
-        }
-        dismiss(animated: true, completion: nil)
-    }
-    
-    public func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        dismiss(animated: true, completion: nil)
     }
     
     private func initialSetup() {
         // show the photo library
-        let imagePicker = UIImagePickerController()
-        imagePicker.delegate = self
-        imagePicker.sourceType = UIImagePickerControllerSourceType.photoLibrary
-        imagePicker.mediaTypes = [kUTTypeImage as String]
-        imagePicker.allowsEditing = false
-        self.present(imagePicker, animated: true, completion: nil)
+//        imagePicker.delegate = self
+//        imagePicker.sourceType = .photoLibrary
+//        imagePicker.mediaTypes = [kUTTypeImage as String]
+//        imagePicker.allowsEditing = false
+//        self.present(imagePicker, animated: true, completion: nil)
         
         // check this code on real device
-//        let imagePicker = UIImagePickerController()
-//        if UIImagePickerController.isSourceTypeAvailable(.camera) {
-//            imagePicker.delegate = self
-//            imagePicker.sourceType = .camera
-//            present(imagePicker, animated: true, completion: nil)
-//        } else {
-//            print("TA: The device has no camera")
-//        }
-        
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            imagePicker.mediaTypes = [kUTTypeImage as String]
+            imagePicker.sourceType = .camera
+            present(imagePicker, animated: true, completion: nil)
+        } else {
+            print("TA: The device has no camera")
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -104,5 +97,45 @@ class MessagesViewController: MSMessagesAppViewController, UIImagePickerControll
     
         // Use this method to finalize any behaviors associated with the change in presentation style.
     }
+    
+    // --------------------------------------------------------------------------------------------------------
+    // --------------------------------------------------------------------------------------------------------
+    // --------------------------------------------------------------------------------------------------------
+    
+//    func takePhoto()
+//    {
+//        if(UIImagePickerController .isSourceTypeAvailable(UIImagePickerControllerSourceType.camera))
+//        {
+//            imagePicker.sourceType = UIImagePickerControllerSourceType.camera
+//            present(imagePicker, animated: true, completion: nil)
+//        }
+//        else
+//        {
+//            let alertWarning = UIAlertView(title:"Warning", message: "You don't have camera", delegate:nil, cancelButtonTitle:"OK", otherButtonTitles:"")
+//            alertWarning.show()
+//        }
+//    }
+    
+//    func openGallary()
+//    {
+//        imagePicker.sourceType = UIImagePickerControllerSourceType.photoLibrary
+//        self.present(imagePicker, animated: true, completion: nil)
+//    }
+    
 
+}
+
+// MARK: - UIImagePickerControllerDelegate Methods
+extension MessagesViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
+            imageView.contentMode = .scaleAspectFit
+            imageView.image = pickedImage
+        }
+        dismiss(animated: true, completion: nil)
+    }
+    
+    public func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
+    }
 }

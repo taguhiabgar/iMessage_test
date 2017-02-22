@@ -15,34 +15,62 @@ class MessagesViewController: MSMessagesAppViewController {
     // MARK: - Properties
     
     @IBOutlet weak var imageView: UIImageView!
-    
+    @IBOutlet weak var sendButton: UIButton!
+    @IBOutlet weak var cameraButton: UIButton!
+    @IBOutlet weak var galleryButton: UIButton!
     let imagePicker = UIImagePickerController()
     
     // MARK: - Lifecycle Methods
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         imagePicker.delegate = self
-        initialSetup()
+        sendButton.tintColor = UIColor.darkGray
+        cameraButton.tintColor = UIColor.darkGray
+        galleryButton.tintColor = UIColor.darkGray
     }
     
-    private func initialSetup() {
-        // show the photo library
-//        imagePicker.delegate = self
-//        imagePicker.sourceType = .photoLibrary
-//        imagePicker.mediaTypes = [kUTTypeImage as String]
-//        imagePicker.allowsEditing = false
-//        self.present(imagePicker, animated: true, completion: nil)
-        
-        // check this code on real device
-        if UIImagePickerController.isSourceTypeAvailable(.camera) {
-            imagePicker.mediaTypes = [kUTTypeImage as String]
-            imagePicker.sourceType = .camera
+    // MARK: - Buttons Actions
+    
+    @IBAction func sendMessageButtonAction(_ sender: UIButton) {
+        if let image = createImageForMessage(),
+            let conversation = activeConversation {
+            // layout
+            let layout = MSMessageTemplateLayout()
+            layout.image = image
+            layout.caption = "smth"
+            // message
+            let message = MSMessage()
+            message.layout = layout
+            message.url = URL(string: "")
+            // insert in conversation
+            conversation.insert(message, completionHandler: { (error: Error?) in
+                if error != nil {
+                    self.showAlert(title: "Error", message: "Error Message: \(error)")
+                }
+            })
+        }
+    }
+    
+    @IBAction func cameraButtonAction(_ sender: UIButton) {
+        if(UIImagePickerController .isSourceTypeAvailable(UIImagePickerControllerSourceType.camera)) {
+            imagePicker.sourceType = UIImagePickerControllerSourceType.camera
             present(imagePicker, animated: true, completion: nil)
         } else {
-            print("TA: The device has no camera")
+            showAlert(title: "Error", message: "Camera is not available.")
         }
+    }
+    
+    @IBAction func galleryButtonAction(_ sender: UIButton) {
+        imagePicker.delegate = self
+        imagePicker.sourceType = .photoLibrary
+        imagePicker.mediaTypes = [kUTTypeImage as String]
+        imagePicker.allowsEditing = false
+        self.present(imagePicker, animated: true, completion: nil)
+    }
+    
+    private func createImageForMessage() -> UIImage? {
+        return imageView.image
     }
     
     override func didReceiveMemoryWarning() {
@@ -98,34 +126,19 @@ class MessagesViewController: MSMessagesAppViewController {
         // Use this method to finalize any behaviors associated with the change in presentation style.
     }
     
-    // --------------------------------------------------------------------------------------------------------
-    // --------------------------------------------------------------------------------------------------------
-    // --------------------------------------------------------------------------------------------------------
+    // MARK: - Show Message via Alert
     
-//    func takePhoto()
-//    {
-//        if(UIImagePickerController .isSourceTypeAvailable(UIImagePickerControllerSourceType.camera))
-//        {
-//            imagePicker.sourceType = UIImagePickerControllerSourceType.camera
-//            present(imagePicker, animated: true, completion: nil)
-//        }
-//        else
-//        {
-//            let alertWarning = UIAlertView(title:"Warning", message: "You don't have camera", delegate:nil, cancelButtonTitle:"OK", otherButtonTitles:"")
-//            alertWarning.show()
-//        }
-//    }
-    
-//    func openGallary()
-//    {
-//        imagePicker.sourceType = UIImagePickerControllerSourceType.photoLibrary
-//        self.present(imagePicker, animated: true, completion: nil)
-//    }
-    
-
+    private func showAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let defaultAction = UIAlertAction(title: "OK", style: .default) { (alert: UIAlertAction!) -> Void in
+//                self.dismiss(animated: true, completion: nil)
+        }
+        alert.addAction(defaultAction)
+        present(alert, animated: true, completion:nil)
+    }
 }
 
-// MARK: - UIImagePickerControllerDelegate Methods
+// MARK: - UIImagePickerControllerDelegate
 extension MessagesViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
@@ -139,3 +152,5 @@ extension MessagesViewController: UIImagePickerControllerDelegate, UINavigationC
         dismiss(animated: true, completion: nil)
     }
 }
+
+

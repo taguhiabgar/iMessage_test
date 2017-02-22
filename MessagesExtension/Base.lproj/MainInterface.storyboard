@@ -29,28 +29,48 @@
                                     <constraint firstAttribute="width" secondItem="Dmd-aD-j6o" secondAttribute="height" multiplier="2:3" id="JXf-Tp-GrG"/>
                                 </constraints>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MKb-fr-y27">
-                                <rect key="frame" x="16" y="468" width="46" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MKb-fr-y27">
+                                <rect key="frame" x="280" y="20" width="24" height="24"/>
+                                <state key="normal" image="ic_send"/>
+                                <connections>
+                                    <action selector="sendMessageButtonAction:" destination="ObA-dk-sSI" eventType="touchUpInside" id="KPx-zg-6MH"/>
+                                </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hrI-Y8-VSA">
-                                <rect key="frame" x="70" y="468" width="46" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ccs-lU-fiw">
+                                <rect key="frame" x="248" y="20" width="24" height="24"/>
+                                <state key="normal" image="ic_camera_alt"/>
+                                <connections>
+                                    <action selector="cameraButtonAction:" destination="ObA-dk-sSI" eventType="touchUpInside" id="hAN-5f-uLz"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hrI-Y8-VSA">
+                                <rect key="frame" x="216" y="20" width="24" height="24"/>
+                                <state key="normal" image="ic_collections"/>
+                                <connections>
+                                    <action selector="galleryButtonAction:" destination="ObA-dk-sSI" eventType="touchUpInside" id="Lpk-yO-Kdt"/>
+                                </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" red="0.50196081400000003" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="Dmd-aD-j6o" firstAttribute="top" secondItem="qkL-Od-lgU" secondAttribute="bottom" id="D8G-n3-Sgm"/>
+                            <constraint firstItem="MKb-fr-y27" firstAttribute="leading" secondItem="Ccs-lU-fiw" secondAttribute="trailing" constant="8" id="Fq7-rW-sTN"/>
+                            <constraint firstItem="Ccs-lU-fiw" firstAttribute="leading" secondItem="hrI-Y8-VSA" secondAttribute="trailing" constant="8" id="G7s-no-ap9"/>
+                            <constraint firstItem="Ccs-lU-fiw" firstAttribute="top" secondItem="MKb-fr-y27" secondAttribute="top" id="SnU-Rw-zJD"/>
+                            <constraint firstItem="MKb-fr-y27" firstAttribute="leading" secondItem="Dmd-aD-j6o" secondAttribute="trailing" constant="-24" id="iu7-re-7Yg"/>
+                            <constraint firstItem="MKb-fr-y27" firstAttribute="top" secondItem="Dmd-aD-j6o" secondAttribute="top" id="kOo-Fz-H3Y"/>
                             <constraint firstAttribute="leadingMargin" secondItem="Dmd-aD-j6o" secondAttribute="leading" id="kbc-CW-ygB"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Dmd-aD-j6o" secondAttribute="trailing" id="pCu-UA-OdG"/>
+                            <constraint firstItem="hrI-Y8-VSA" firstAttribute="top" secondItem="Ccs-lU-fiw" secondAttribute="top" id="zXA-Cp-keW"/>
                         </constraints>
                     </view>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="320" height="528"/>
                     <connections>
+                        <outlet property="cameraButton" destination="Ccs-lU-fiw" id="7Jy-Kh-nwt"/>
+                        <outlet property="galleryButton" destination="hrI-Y8-VSA" id="euj-W6-HwW"/>
                         <outlet property="imageView" destination="Dmd-aD-j6o" id="Dms-aD-7xV"/>
+                        <outlet property="sendButton" destination="MKb-fr-y27" id="fVF-5T-zwo"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="X47-rx-isc" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -58,4 +78,9 @@
             <point key="canvasLocation" x="25.600000000000001" y="35.982008995502248"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="ic_camera_alt" width="24" height="24"/>
+        <image name="ic_collections" width="24" height="24"/>
+        <image name="ic_send" width="24" height="24"/>
+    </resources>
 </document>

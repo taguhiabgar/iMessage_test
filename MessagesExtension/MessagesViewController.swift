@@ -53,7 +53,7 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     @IBAction func cameraButtonAction(_ sender: UIButton) {
-        if(UIImagePickerController .isSourceTypeAvailable(UIImagePickerControllerSourceType.camera)) {
+        if(UIImagePickerController.isSourceTypeAvailable(.camera)) {
             imagePicker.sourceType = UIImagePickerControllerSourceType.camera
             present(imagePicker, animated: true, completion: nil)
         } else {
